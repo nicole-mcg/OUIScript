@@ -1,6 +1,8 @@
 #ifndef OUI_ATTRIBUTE_H
 #define OUI_ATTRIBUTE_H
 
+#include <string>
+
 #include "OUI_includes.h"
 
 namespace oui {

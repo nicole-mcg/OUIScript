@@ -8,11 +8,11 @@ oui::Scope::Scope(VariableMap variable, Scope* parentScope = NULL, bool isStatic
 	this->isStatic = isStatic;
 
 	if (parentScope != NULL && parentScope->isStatic) {
+		//Static variables won't change their values so we can set them now
 		setVariables(parentScope);
 	}
 }
 
-//Must be a valid id or an error is thrown
 oui::Variable* oui::Scope::setVariable(int id, Variable value) {
 	if (isStatic) {
 		throw std::runtime_error("Tried to change variable on static sheet.");
@@ -44,6 +44,7 @@ oui::Variable* oui::Scope::getVariable(int id) {
 oui::Variable* oui::Scope::tryGetVariable(int id) {
 
 	//Check if this scope has the variable set
+	//Don't check if this scope is static (as the child scope should already have these variables)
 	if (!isStatic) {
 		auto it = variables.find(id);
 		if (it != variables.end()) {
@@ -99,8 +100,9 @@ void oui::Scope::overwriteVariables(Scope* profile) {
 
 	for (auto it = profile->variables.begin; it != profile->variables.end(); it++) {
 
-		//Set value if it doesn't already exist
 		Variable* existingAttr = getVariable(it->first);
+
+		//Set value only if it already exist
 		if (existingAttr != NULL) {
 			setVariable(it->first, it->second);
 		}

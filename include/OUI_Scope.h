@@ -1,6 +1,8 @@
 #ifndef OUI_ATTRIBUTE_PROFILE_H
 #define OUI_ATTRIBUTE_PROFILE_H
 
+#include <unordered_map>
+
 #include "OUI_Variable.h"
 
 namespace oui {
@@ -30,6 +32,7 @@ namespace oui {
 		//If true, the variables in this scope can't be changed
 		//Useful for templates, just as a classes type
 		private: bool isStatic;
+
 		//The variables in this scope
 		private: VariableMap variables;
 
@@ -40,9 +43,11 @@ namespace oui {
 
 		//Must be a valid id or an error is thrown
 		public: Variable* setVariable(int id, Variable value);
+
 		//Must be a valid id or an error is thrown
 		public: Variable* getVariable(int id);
-		//Called from a child scope, used to ignore existing variable check in static scopes
+
+		//Ignores existing variable checks in static scopes
 		private: Variable* tryGetVariable(int id);
 		
 		public: bool getBool(int id);
@@ -52,6 +57,7 @@ namespace oui {
 		
 		//Used to apply variables from one scope to another
 		private: void setVariables(Scope* profile, bool overwrite = true);
+
 		//Used to overwrite only with variables that exist in both in both scopes
 		public: void overwriteVariables(Scope* profile);
 	};
