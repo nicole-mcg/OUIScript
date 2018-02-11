@@ -7,6 +7,7 @@ namespace oui {
 
 	//The next id for a new variable name
 	int nextVariableId;
+
 	//The map of current variable ids/names
 	std::unordered_map<std::string, int> variableNameMap;
 
@@ -14,7 +15,7 @@ namespace oui {
 	int getVariableId(std::string name);
 
 	//Gets the variable name for the specified ID
-	//Should be avoided as it will be slower
+	//Should be avoided as it will be slowe
 	std::string getVariableName(int id);
 
 }
