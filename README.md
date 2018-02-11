@@ -11,4 +11,4 @@ Class Instance:
 Generic Scope:
 		parentScope should be the global scope, or the scope this was created in
 		isStatic should be false
-		When a child scope is destroyed, parent.overwriteVariables(child) should be called so parent variables are updated
+		-When a child scope is destroyed, parent.overwriteVariables(child) should be called so parent variables are updated
