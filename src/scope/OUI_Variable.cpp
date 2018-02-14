@@ -5,13 +5,26 @@
 #include <iostream>
 
 oui::Variable::~Variable() {
-	if (type == VariableType::ARRAY) {
-		std::vector<Variable*> vars = getArrayVal();
-		while (vars.size() > 0) {
-			delete vars[0];
-			vars.erase(vars.begin());
-		}
+
+	if (type == VariableType::STRING) {
+		String* string = static_cast<String*>(value);
+		delete string;//Delete it as a String to call destructors
+		value = NULL;
 	}
+
+	if (type == VariableType::ARRAY) {
+		std::vector<Variable*>* vars = static_cast<std::vector<Variable*>*>(value);
+		while (vars->size() > 0) {
+			auto it = vars->begin();
+			delete *it;
+			vars->erase(it);
+		}
+
+		//Delete the pointer here because deleting a void pointer won't call destructors
+		delete vars;
+		value = NULL;
+	}
+
 	if (value != NULL) {
 		delete value;
 	}
@@ -40,7 +53,7 @@ oui::Variable::Variable(Variable& attr) {
 			std::vector<Variable*>* vec = static_cast<std::vector<Variable*>*>(attr.value);
 			std::vector<Variable*>* newVec = new std::vector<Variable*>();
 			for (int i = 0; i < vec->size(); i++) {
-				newVec->push_back(new Variable(*vec->at(i)));
+				newVec->push_back(new Variable(*(vec->at(i))));
 			}
 			value = newVec;
 			break;
@@ -84,7 +97,13 @@ oui::Variable::Variable(const char* value) {
 
 oui::Variable::Variable(std::vector<Variable*> value) {
 	type = VariableType::ARRAY;
-	this->value = new std::vector<Variable*>(value);
+	auto vec = new std::vector<Variable*>();
+
+	for (int i = 0; i < value.size(); i++) {
+		vec->push_back(new Variable(*value[i]));
+	}
+
+	this->value = vec;
 }
 
 void oui::Variable::setValue(Variable attr) {

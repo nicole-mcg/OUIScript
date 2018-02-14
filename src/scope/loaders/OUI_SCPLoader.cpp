@@ -21,7 +21,7 @@ std::unordered_map<oui::String, oui::Scope*> oui::loadScp(String scpString, bool
 	bool error = false;
 	String errorMessage = u"";
 	int currentLine = 1;
-	int currentChar = 1;
+	int currentChar = 0;
 	char16_t c;
 
 	//Used in all states
@@ -44,15 +44,17 @@ std::unordered_map<oui::String, oui::Scope*> oui::loadScp(String scpString, bool
 
 		if (c == u'\n' || c == u'\r') {
 			currentLine++;
-			currentChar = 1;
+			currentChar = 0;
 		}
+
+		currentChar++;
 
 		switch (state) {
 
 			//Looking for anything (scope names)
 			case NONE:
 				if (!isCharValidForName(c)) {
-					errorMessage = u"Unexpected '" + String(u"" + c) + u"' while looking for scope name";
+					errorMessage = u"Unexpected '" + String(u"" + (char) c) + u"' while looking for scope name";
 					error = true;
 				} else if (!isspace(c)) {
 					token = c;
@@ -122,8 +124,6 @@ std::unordered_map<oui::String, oui::Scope*> oui::loadScp(String scpString, bool
 							Scope* scope = NULL;
 							auto it = scopes.find(scopeNames[i]);
 
-							
-
 							if (it == scopes.end()) {
 								scope = new Scope(loadAsStatic);
 								scopes.insert({scopeNames[i], scope});
@@ -133,6 +133,14 @@ std::unordered_map<oui::String, oui::Scope*> oui::loadScp(String scpString, bool
 
 							scope->setVariables(vars);
 						}
+
+						//Clean up VariableMap
+						while (vars.size() > 0) {
+							auto it = vars.begin();
+							delete it->second;
+							vars.erase(it);
+						}
+						vars.clear();
 
 						scopeNames.clear();
 						scopeVars.clear();
@@ -152,7 +160,7 @@ std::unordered_map<oui::String, oui::Scope*> oui::loadScp(String scpString, bool
 					}
 
 				} else {
-					errorMessage = String(u"Unexpected '").append(String(u"" + c)).append(u"' while looking for variable name");
+					errorMessage = String(u"Unexpected '").append(String(u"" + (char) c)).append(u"' while looking for variable name");
 					error = true;
 				}
 				break;
@@ -187,11 +195,15 @@ std::unordered_map<oui::String, oui::Scope*> oui::loadScp(String scpString, bool
 						error = true;
 					} else if (varValues.size() == 1) {
 						scopeVars.insert({varName, new Variable(*varValues[0])});
-						delete varValues[0];
 					} else {
 						scopeVars.insert({varName, new Variable(varValues)});
 					}
 
+					while (varValues.size() > 0) {
+						auto it = varValues.begin();
+						delete *it;
+						varValues.erase(it);
+					}
 					varValues.clear();
 					state = LOOK_FOR_VAR_NAME;
 				} else if (c == u'"' && isspace(scpString[i - 1])) {
@@ -215,10 +227,10 @@ std::unordered_map<oui::String, oui::Scope*> oui::loadScp(String scpString, bool
 						token = u"";
 					}
 
-				} else if (isCharValidForName(c)) {
+				} else if (isCharValidForName(c) || c == u'.') {
 					token += c;
 				} else {
-					errorMessage = u"Unexpected '" + String(u"" + c) + u"' while looking for variable value";
+					errorMessage = u"Unexpected '" + String(u"" + (char) c) + u"' while looking for variable value";
 					error = true;
 				}
 				break;
@@ -232,7 +244,7 @@ std::unordered_map<oui::String, oui::Scope*> oui::loadScp(String scpString, bool
 					} else if (c == u't') {
 						token += u'\t';
 					} else {
-						errorMessage = u"Unknown escape sequence '\\" + String(u"" + c) + u"'";
+						errorMessage = u"Unknown escape sequence '\\" + String(u"" + (char) c) + u"'";
 					}
 				} else if (c == u'"') {
 					state = LOOK_FOR_VAR_VALUE;

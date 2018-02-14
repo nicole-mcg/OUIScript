@@ -5,7 +5,7 @@
 
 #include "scope/loaders/OUI_SCPLoader.h"
 
-#include <iostream>
+#include <iostream>//TODO remove
 
 std::unordered_map<oui::String, oui::Scope*> oui::loadScopes(std::string fileName, bool loadAsStatic) {
 
@@ -16,12 +16,6 @@ std::unordered_map<oui::String, oui::Scope*> oui::loadScopes(std::string fileNam
 	String str((std::istreambuf_iterator<wchar_t>(stream)),
 					std::istreambuf_iterator<wchar_t>());//Load file
 	stream.close();
-
-	std::cout << "len=" << str.length() << std::endl;
-	for (int i = 0; i < str.length(); i++) {
-		std::cout << (char) str[i];
-	}
-	std::cout << std::endl;
 
 	return loadScp(str);
 }

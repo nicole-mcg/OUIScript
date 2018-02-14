@@ -29,6 +29,7 @@ oui::VariableMap oui::createVariableMap(std::unordered_map<String, Variable*>& i
 	while (inputMap.size() > 0) {
 		auto it = inputMap.begin();
 		variableMap.insert({getVariableId(it->first), new Variable(*(it->second))});
+		delete it->second;
 		inputMap.erase(it);
 	}
 
