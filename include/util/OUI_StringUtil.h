@@ -11,7 +11,7 @@ namespace oui {
 
 	inline std::string convertUTF16to8(std::u16string string) {
 		std::string s = "";
-		for (int i = 0; i < string.length(); i++) {
+		for (unsigned int i = 0; i < string.length(); i++) {
 			s += (char) string[i];
 		}
 		return s;
@@ -19,7 +19,7 @@ namespace oui {
 
 	inline String convertUTF8to16(std::string string) {
 		String s = u"";
-		for (int i = 0; i < string.length(); i++) {
+		for (unsigned int i = 0; i < string.length(); i++) {
 			s += (char16_t) string[i];
 		}
 		return s;
@@ -27,7 +27,7 @@ namespace oui {
 
 	inline String toLower(const String& string) {
 		String lower = String(string);
-		for (int i = 0; i < string.length(); i++) {
+		for (unsigned int i = 0; i < string.length(); i++) {
 			if (string[i] < 255) {
 				lower[i] = (char16_t) tolower((char) string[i]);
 			}

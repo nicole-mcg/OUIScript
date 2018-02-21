@@ -52,7 +52,7 @@ oui::Variable::Variable(Variable& attr) {
 		case VariableType::ARRAY:
 			std::vector<Variable*>* vec = static_cast<std::vector<Variable*>*>(attr.value);
 			std::vector<Variable*>* newVec = new std::vector<Variable*>();
-			for (int i = 0; i < vec->size(); i++) {
+			for (unsigned int i = 0; i < vec->size(); i++) {
 				newVec->push_back(new Variable(*(vec->at(i))));
 			}
 			value = newVec;
@@ -99,7 +99,7 @@ oui::Variable::Variable(std::vector<Variable*> value) {
 	type = VariableType::ARRAY;
 	auto vec = new std::vector<Variable*>();
 
-	for (int i = 0; i < value.size(); i++) {
+	for (unsigned int i = 0; i < value.size(); i++) {
 		vec->push_back(new Variable(*value[i]));
 	}
 
@@ -155,11 +155,12 @@ oui::String oui::Variable::toString() {
 			{
 				String s = u"[";
 				std::vector<Variable*> vec = getArrayVal();
-				for (int i = 0; i < vec.size(); i++) {
+				for (unsigned int i = 0; i < vec.size(); i++) {
 					s += vec[i]->toString() + u", ";
 				}
 				return s + u"]";
 			}
 
 	}
+	return u"{UNKNOWN}";
 }

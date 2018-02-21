@@ -63,6 +63,7 @@ oui::Variable* oui::Scope::getVariable(int id) {
 	}
 
 	std::cout << "Referenced non-existing variable: " << convertUTF16to8(getVariableName(id)) << std::endl;
+	return NULL;
 }
 
 oui::Variable* oui::Scope::tryGetVariable(int id) {
