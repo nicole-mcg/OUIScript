@@ -9,13 +9,9 @@
 
 #include <thread>
 
-double addInts(double var1, double var2) {
-	return (var1 + var2) * 2;
-}
-
 int main() {
 
-	long long start = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+	long long start;// = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
 	/*for (int i = 0; i < 1; i++) {
 		std::unordered_map<oui::String, oui::Scope*> scopes = oui::loadScopes("./data/test.scp");
 
@@ -29,8 +25,8 @@ int main() {
 			}
 		}
 	}
-	std::cout << "Took " << (std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count() - start) << "ms" << std::endl;
-	*/
+	std::cout << "Took " << (std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count() - start) << "ms" << std::endl;*/
+
 	int num1Id = oui::getVariableId(u"num1");
 	int num2Id = oui::getVariableId(u"num2");
 	int addId = oui::getVariableId(u"add");
