@@ -8,8 +8,10 @@
 
 namespace oui {
 
+	class Function;
+
 	enum VariableType {
-		BOOL, INT, DOUBLE, STRING, ARRAY
+		NONE, BOOL, NUMBER, STRING, ARRAY, FUNCTION
 	};
 
 	//This class represents a variable
@@ -23,7 +25,9 @@ namespace oui {
 		public: ~Variable();
 
 		public: Variable(Variable&&) = default;
-		public: Variable(Variable& attr);
+		public: Variable(const Variable& attr);
+
+		public: Variable();
 		public: Variable(bool value);
 		public: Variable(int value);
 		public: Variable(double value);
@@ -32,6 +36,7 @@ namespace oui {
 		public: Variable(std::string value);
 		public: Variable(const char* value);
 		public: Variable(std::vector<Variable*> value);
+		public: Variable(Function* value);
 
 		//Sets a value from a generic variable
 		//Can be used with primitives
@@ -42,16 +47,24 @@ namespace oui {
 
 		public: VariableType getType();
 
-		public: bool getBoolVal();
-		public: int getIntVal();
-		public: double getDoubleVal();
-		public: String getStringVal();
-		public: std::vector<Variable*> getArrayVal();
+		public: bool& getBoolVal();
+		public: double& getNumberVal();
+		public: String& getStringVal();
+		public: std::vector<Variable*>& getArrayVal();
+		public: Function* getFunctionVal();
 
+		public: void destroyValue();
+
+		public: bool equals(Variable& other);
 		public: String toString();
+		public: Variable clone();
+
+		public: static String typeToString(VariableType type);
+
+		public:	Variable& operator=(const Variable&);
 	};
 
-	typedef std::unordered_map<int, Variable*> VariableMap;
+	typedef std::map<int, Variable*> VariableMap;
 
 }
 

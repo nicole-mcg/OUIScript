@@ -39,7 +39,7 @@ std::unordered_map<oui::String, oui::Scope*> oui::loadScp(String scpString, bool
 	//String literal
 	bool escapeStringLiteral = false;
 
-	for (unsigned int i = 0; i < scpString.length(); i++) {
+	for (size_t i = 0; i < scpString.length(); i++) {
 		c = scpString.at(i);
 
 		if (c == u'\n' || c == u'\r') {
@@ -120,7 +120,7 @@ std::unordered_map<oui::String, oui::Scope*> oui::loadScp(String scpString, bool
 					} else {
 
 						VariableMap vars = createVariableMap(scopeVars);
-						for (unsigned int i = 0; i < scopeNames.size(); i++) {
+						for (size_t i = 0; i < scopeNames.size(); i++) {
 							Scope* scope = NULL;
 							auto it = scopes.find(scopeNames[i]);
 
@@ -175,9 +175,7 @@ std::unordered_map<oui::String, oui::Scope*> oui::loadScp(String scpString, bool
 
 					if (token != u"") {
 
-						if (isInteger(token)) {
-							varValues.push_back(new Variable(std::stoi(convertUTF16to8(token))));
-						} else if (isDouble(token)) {
+						if (isDouble(token)) {
 							varValues.push_back(new Variable(std::stod(convertUTF16to8(token))));
 						} else if (isBool(token)) {
 							varValues.push_back(new Variable(toBool(token)));
@@ -214,9 +212,7 @@ std::unordered_map<oui::String, oui::Scope*> oui::loadScp(String scpString, bool
 
 					if (token != u"") {
 
-						if (isInteger(token)) {
-							varValues.push_back(new Variable(std::stoi(convertUTF16to8(token))));
-						} else if (isDouble(token)) {
+						if (isDouble(token)) {
 							varValues.push_back(new Variable(std::stod(convertUTF16to8(token))));
 						} else if (isBool(token)) {
 							varValues.push_back(new Variable(toBool(token)));

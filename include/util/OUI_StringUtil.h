@@ -11,7 +11,7 @@ namespace oui {
 
 	inline std::string convertUTF16to8(std::u16string string) {
 		std::string s = "";
-		for (unsigned int i = 0; i < string.length(); i++) {
+		for (size_t i = 0; i < string.length(); i++) {
 			s += (char) string[i];
 		}
 		return s;
@@ -19,7 +19,7 @@ namespace oui {
 
 	inline String convertUTF8to16(std::string string) {
 		String s = u"";
-		for (unsigned int i = 0; i < string.length(); i++) {
+		for (size_t i = 0; i < string.length(); i++) {
 			s += (char16_t) string[i];
 		}
 		return s;
@@ -27,7 +27,7 @@ namespace oui {
 
 	inline String toLower(const String& string) {
 		String lower = String(string);
-		for (unsigned int i = 0; i < string.length(); i++) {
+		for (size_t i = 0; i < string.length(); i++) {
 			if (string[i] < 255) {
 				lower[i] = (char16_t) tolower((char) string[i]);
 			}
@@ -68,7 +68,7 @@ namespace oui {
 		int start, end;
 
 		start = 0;
-		for (unsigned int i = 0; i < string.length(); i++) {
+		for (size_t i = 0; i < string.length(); i++) {
 			if (!isspace(string.at(i))) {
 				start = i;
 				break;
@@ -76,7 +76,7 @@ namespace oui {
 		}
 
 		end = string.length() - 1;
-		for (unsigned int i = string.length() - 1; i >= 0; i--) {
+		for (size_t i = string.length() - 1; i >= 0; i--) {
 			if (!isspace(string.at(i))) {
 				end = i + 1;
 				break;
@@ -93,7 +93,7 @@ namespace oui {
 			return false;
 		}
 
-		unsigned int i = 0;
+		size_t i = 0;
 		if (s[i] == '-' || s[i] == '+') {
 			i++;
 		}
@@ -115,7 +115,7 @@ namespace oui {
 
 		bool foundDecimal = false;
 
-		unsigned int i = 0;
+		size_t i = 0;
 		if (s[i] == '-' || s[i] == '+') {
 			i++;
 		}

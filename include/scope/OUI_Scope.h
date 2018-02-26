@@ -1,7 +1,7 @@
 #ifndef OUI_ATTRIBUTE_PROFILE_H
 #define OUI_ATTRIBUTE_PROFILE_H
 
-#include "OUI_Variable.h"
+#include "lang/OUI_Variable.h"
 
 namespace oui {
 
@@ -33,6 +33,8 @@ namespace oui {
 		//Useful for templates, just as a classes type
 		private: bool isStatic;
 
+		public: ~Scope();
+
 		//The variables in this scope
 		public: VariableMap variables;
 
@@ -44,6 +46,11 @@ namespace oui {
 		//isStatic:		If true, the variables in this scope cannot be changed. E.g: A class type with it's default variable values
 		public: Scope(VariableMap variableMap, Scope* parentScope = NULL, bool isStatic = true);
 
+		//Sets the current parent
+		public: void setParent(Scope* parentScope);
+
+		//Used to create a variable
+		public: Variable* createVariable(int id, Variable value = Variable());
 		//Must be a valid id or an error is thrown
 		public: Variable* setVariable(int id, Variable value);
 
@@ -51,13 +58,15 @@ namespace oui {
 		public: Variable* getVariable(int id);
 
 		//Ignores existing variable checks in static scopes
-		private: Variable* tryGetVariable(int id);
+		public: Variable* tryGetVariable(int id);
+
+		public: bool containsVariable(int id);
 		
 		public: bool getBool(int id);
-		public: int getInt(int id);
-		public: double getDouble(int id);
+		public: double getNumber(int id);
 		public: String getString(int id);
 		public: std::vector<Variable*> getArray(int id);
+		public: Function* getFunction(int id);
 		
 		//Used to apply variables from one scope to another
 		public: void setVariables(Scope* profile, bool overwrite = true);
@@ -66,6 +75,8 @@ namespace oui {
 
 		//Used to overwrite only with variables that exist in both in both scopes
 		public: void overwriteVariables(Scope* profile);
+
+		public: void clearVariables(std::vector<int> exceptions = std::vector<int>());
 	};
 
 }

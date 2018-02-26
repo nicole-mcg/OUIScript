@@ -2,7 +2,7 @@
 #define OUI_ATTRIBUTE_LINKER_H
 
 #include "util/OUI_Types.h"
-#include <scope/OUI_Variable.h>
+#include "lang/OUI_Variable.h"
 
 namespace oui {
 
