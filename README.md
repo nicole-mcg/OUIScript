@@ -1,6 +1,6 @@
 This will become a simple embedded scripting language in c++ with the following features:
 
-	- Compiling (and obfustication)
+	- Compiling (and obfuscation)
 	- Dynamic typing
 	- Functions
 	- Classes
